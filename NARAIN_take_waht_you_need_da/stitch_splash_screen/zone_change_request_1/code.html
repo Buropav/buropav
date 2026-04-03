@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zone Change Request - ProtoRyde</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#405e92",
+                    "tertiary-fixed-dim": "#feb87c",
+                    "surface-variant": "#e0e3e6",
+                    "on-secondary-fixed": "#291800",
+                    "surface": "#f7f9fc",
+                    "primary-fixed-dim": "#abc7ff",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f2f4f7",
+                    "tertiary-container": "#5e3100",
+                    "tertiary-fixed": "#ffdcc2",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#264679",
+                    "on-surface": "#191c1e",
+                    "outline": "#747780",
+                    "on-tertiary-container": "#db9960",
+                    "on-primary": "#ffffff",
+                    "secondary": "#835500",
+                    "on-secondary-fixed-variant": "#633f00",
+                    "surface-container-highest": "#e0e3e6",
+                    "surface-dim": "#d8dadd",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#ffddb4",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#6b4500",
+                    "on-surface-variant": "#43474f",
+                    "outline-variant": "#c4c6d0",
+                    "inverse-on-surface": "#eff1f4",
+                    "inverse-surface": "#2d3133",
+                    "secondary-container": "#feae2c",
+                    "on-tertiary-fixed": "#2e1500",
+                    "background": "#f7f9fc",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "primary-container": "#1a3c6e",
+                    "primary-fixed": "#d7e3ff",
+                    "on-background": "#191c1e",
+                    "on-primary-fixed": "#001b3f",
+                    "surface-bright": "#f7f9fc",
+                    "on-primary-container": "#8aa8e0",
+                    "primary": "#002653",
+                    "surface-container": "#eceef1",
+                    "secondary-fixed-dim": "#ffb955",
+                    "tertiary": "#3e1f00",
+                    "on-tertiary-fixed-variant": "#6b3b09",
+                    "inverse-primary": "#abc7ff",
+                    "surface-container-high": "#e6e8eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "1rem",
+                    "xl": "1.25rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+        }
+        .premium-gradient {
+            background: linear-gradient(135deg, #002653 0%, #1a3c6e 100%);
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-50/80 backdrop-blur-lg flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a delivery partner in a blue uniform with a confident smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3bZbEhMeYhNoMy5ApiW3RtdWSvZq-deEEcdP7UGqxia_zmLspd3Z-4iJSXj-oAAIXKDLZDD4xk0IEXvfZNzGbMBWrWdNQlIx4vxrhIWOjze2R1LVLjbg3z7zCPyZRdKSCQwY7m4NDqYbgt5uw5kp96wU4bzbsMLbIG_cp8tXB4kBWOrq71JfeFKR-oJ9Do_9n6wJJDnuc18RiEaJbADALoKyOOgC0DzcE2BZY22WaIRb7xX1w4unRR_yzQ1EKvvM-S78B98CyFw"/>
+</div>
+<span class="text-xl font-bold tracking-tight text-blue-900">ProtoRyde</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-slate-200/50 transition-opacity duration-200 active:opacity-70">
+<span class="material-symbols-outlined text-blue-900" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="mt-20 px-6 space-y-8 max-w-lg mx-auto">
+<!-- Hero: Page Title -->
+<section class="pt-4">
+<h1 class="text-3xl font-extrabold tracking-tight text-primary leading-tight">Zone Change Request</h1>
+<p class="text-on-surface-variant mt-2 font-medium">Update your operating area and adjust your coverage.</p>
+</section>
+<!-- Current Status: Tonal Layering Card -->
+<div class="bg-surface-container-low rounded-xl p-1 overflow-hidden">
+<div class="bg-surface-container-lowest rounded-[14px] p-5 shadow-sm">
+<div class="flex justify-between items-start mb-6">
+<div>
+<span class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant block mb-1">Current Active Zone</span>
+<h2 class="text-xl font-bold text-primary">Indiranagar, BLR</h2>
+</div>
+<div class="px-3 py-1 bg-tertiary-fixed rounded-full flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="text-[11px] font-black uppercase text-on-tertiary-fixed">Medium Risk</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Daily Premium</span>
+<p class="text-lg font-extrabold text-primary">₹42.50</p>
+</div>
+<div class="space-y-1">
+<span class="text-[10px] font-bold text-on-surface-variant uppercase">Safety Rating</span>
+<p class="text-lg font-extrabold text-secondary">4.8/5.0</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Zone Selection: Bento Style -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h3 class="text-lg font-bold text-primary">Select New Zone</h3>
+<span class="text-xs font-bold text-primary underline">View Map</span>
+</div>
+<div class="space-y-3">
+<!-- Zone Item: Selected -->
+<button class="w-full flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl border-2 border-primary ring-4 ring-primary/5 transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-primary-fixed rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="explore">explore</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-primary">Whitefield (E-City)</p>
+<p class="text-xs text-on-surface-variant">High-Volume, Premium Slabs</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] font-black uppercase text-error mb-1 block">High Risk</span>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</button>
+<!-- Zone Item -->
+<button class="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="location_on">location_on</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-primary">Koramangala</p>
+<p class="text-xs text-on-surface-variant">Standard Commercial Zone</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] font-black uppercase text-secondary mb-1 block">Medium Risk</span>
+</div>
+</button>
+<!-- Zone Item -->
+<button class="w-full flex items-center justify-between p-4 bg-surface-container-low rounded-xl hover:bg-surface-container transition-all">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-highest rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="location_on">location_on</span>
+</div>
+<div class="text-left">
+<p class="font-bold text-primary">Jayanagar</p>
+<p class="text-xs text-on-surface-variant">Residential Quiet Zone</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-[10px] font-black uppercase text-green-600 mb-1 block">Low Risk</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Risk Comparison: Architectural Asymmetry -->
+<section class="bg-primary p-6 rounded-xl relative overflow-hidden">
+<div class="absolute -right-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+<h3 class="text-white text-sm font-bold uppercase tracking-widest mb-6 opacity-80">Impact Comparison</h3>
+<div class="flex items-center justify-between gap-4">
+<div class="flex-1 space-y-1">
+<p class="text-primary-fixed-dim text-[10px] font-bold uppercase">Current</p>
+<p class="text-white font-extrabold text-xl">Medium</p>
+<p class="text-white/60 text-xs">₹42.50 / day</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-10 h-10 bg-secondary-container rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="trending_up">trending_up</span>
+</div>
+</div>
+<div class="flex-1 text-right space-y-1">
+<p class="text-primary-fixed-dim text-[10px] font-bold uppercase">Estimated New</p>
+<p class="text-white font-extrabold text-xl">High</p>
+<p class="text-secondary-fixed-dim text-xs font-bold">₹58.20 / day</p>
+</div>
+</div>
+<div class="mt-8 pt-6 border-t border-white/10 flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-lg" data-icon="info">info</span>
+<p class="text-white/80 text-[11px] leading-relaxed">Increasing risk tier adds ₹15.70 to your daily base. Coverage for high-traffic zones is expanded.</p>
+</div>
+</section>
+<!-- Approval Timeline -->
+<section class="space-y-4">
+<h3 class="text-lg font-bold text-primary">Approval Timeline</h3>
+<div class="space-y-6 pl-4 relative">
+<!-- Line -->
+<div class="absolute left-[7px] top-2 bottom-2 w-[2px] bg-surface-container-highest"></div>
+<!-- Step 1 -->
+<div class="relative flex gap-4">
+<div class="z-10 w-4 h-4 rounded-full bg-primary ring-4 ring-primary/20 mt-1"></div>
+<div>
+<p class="font-bold text-sm text-primary">Request Submitted</p>
+<p class="text-xs text-on-surface-variant">Instant receipt generated</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="relative flex gap-4 opacity-50">
+<div class="z-10 w-4 h-4 rounded-full bg-surface-container-highest mt-1"></div>
+<div>
+<p class="font-bold text-sm text-on-surface">Underwriter Review</p>
+<p class="text-xs text-on-surface-variant">Est. time: 4 hours</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="relative flex gap-4 opacity-50">
+<div class="z-10 w-4 h-4 rounded-full bg-surface-container-highest mt-1"></div>
+<div>
+<p class="font-bold text-sm text-on-surface">Policy Activation</p>
+<p class="text-xs text-on-surface-variant">New zone terms live</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Request CTA -->
+<div class="pt-4">
+<button class="w-full premium-gradient text-white font-bold py-4 rounded-lg shadow-xl shadow-primary/20 active:scale-[0.98] transition-transform">
+                Request Zone Change
+            </button>
+<p class="text-center text-[10px] text-on-surface-variant mt-4 uppercase tracking-tighter">By clicking, you agree to the revised premium schedule.</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white dark:bg-slate-900 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] flex justify-around items-center pt-3 pb-6 px-4 rounded-t-2xl border-t border-slate-100">
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-bold uppercase tracking-wider text-[10px]">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="verified_user">verified_user</span>
+<span class="font-bold uppercase tracking-wider text-[10px]">Policy</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="gavel">gavel</span>
+<span class="font-bold uppercase tracking-wider text-[10px]">Claims</span>
+</button>
+<button class="flex flex-col items-center justify-center text-blue-900 font-black scale-110">
+<span class="material-symbols-outlined mb-1" data-icon="map" style="font-variation-settings: 'FILL' 1;">map</span>
+<span class="font-bold uppercase tracking-wider text-[10px]">Zones</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-400 hover:text-blue-700 transition-transform duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="account_circle">account_circle</span>
+<span class="font-bold uppercase tracking-wider text-[10px]">Profile</span>
+</button>
+</nav>
+</body></html>
