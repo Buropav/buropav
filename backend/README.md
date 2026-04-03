@@ -6,7 +6,7 @@ This is Anurup's Phase 2 Scope for the backend simulation and trigger engines.
 ```bash
 python3 -m venv venv
 source venv/bin/activate
-pip install fastapi uvicorn pydantic requests apscheduler python-dotenv sqlalchemy
+pip install -r backend/requirements.txt
 ```
 
 ## Running the Server
@@ -24,5 +24,8 @@ uvicorn backend.main:app --reload --port 8000
 - `GET /api/mock/branches/{zone}`: deterministic branch-closure fixtures.
 - `POST /api/triggers/simulate`: 4-layer fraud simulation returning timeline-ready output.
 - `GET /api/policies/{rider_id}/current`: current active policy snapshot.
+- `GET /api/policies/{rider_id}/history`: weekly policy history for rider timeline.
+- `GET /api/policies/{rider_id}/current/document`: downloadable policy PDF with exclusions and thresholds.
 - `GET /api/claims/{rider_id}`: rider claims history.
+- `GET /api/claims`: admin claims list with optional filters (`zone`, `trigger_type`, `is_simulated`, `limit`).
 - `APScheduler` (optional): 5-minute polling, enabled with `ENABLE_SCHEDULER=true`.

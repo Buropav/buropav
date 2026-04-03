@@ -1,10 +1,12 @@
 import json
 import os
+from io import BytesIO
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
@@ -83,6 +85,86 @@ def _ensure_rider_and_policy(db: Session, rider_id: str, zone: str, exclusions_a
         )
         db.add(policy)
     return policy
+
+
+def _build_policy_pdf_bytes(rider: Rider, policy: Policy) -> bytes:
+    try:
+        from reportlab.lib.pagesizes import A4
+        from reportlab.pdfgen import canvas
+    except ImportError as exc:
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error": "PDF_ENGINE_MISSING",
+                "message": "reportlab is required for PDF generation. Install with: pip install reportlab",
+            },
+        ) from exc
+
+    buffer = BytesIO()
+    pdf = canvas.Canvas(buffer, pagesize=A4)
+    width, height = A4
+
+    left = 50
+    y = height - 50
+    line_gap = 16
+
+    def line(text: str, size: int = 11, bold: bool = False):
+        nonlocal y
+        if y < 60:
+            pdf.showPage()
+            y = height - 50
+        font = "Helvetica-Bold" if bold else "Helvetica"
+        pdf.setFont(font, size)
+        pdf.drawString(left, y, text)
+        y -= line_gap
+
+    line("ProtoRyde Policy Document", size=16, bold=True)
+    line(f"Generated At: {_now().isoformat()}", size=10)
+    line(f"Policy ID: {policy.id}")
+    line(f"Rider ID: {rider.id}")
+    line(f"Rider Name: {rider.name}")
+    line(f"Zone: {rider.zone}")
+    line("")
+    line("Policy Terms", bold=True)
+    line(f"Status: {policy.status}")
+    line(f"Coverage Cap: INR {policy.coverage_cap}")
+    line(f"Base Premium: INR {policy.base_premium}")
+    line(f"Final Premium: INR {policy.final_premium}")
+    line(f"Week Start: {policy.week_start_date.isoformat() if policy.week_start_date else 'N/A'}")
+    line(f"Week End: {policy.week_end_date.isoformat() if policy.week_end_date else 'N/A'}")
+    line(
+        "Exclusions Acknowledged At: "
+        + (policy.exclusions_acknowledged_at.isoformat() if policy.exclusions_acknowledged_at else "NOT ACKNOWLEDGED")
+    )
+    line("")
+    line("Premium Breakdown", bold=True)
+    breakdown = policy.premium_breakdown or []
+    if breakdown:
+        for item in breakdown:
+            factor = item.get("factor", "unknown_factor")
+            amount = item.get("amount", 0.0)
+            reason = item.get("reason", "")
+            line(f"- {factor}: INR {amount} ({reason})", size=10)
+    else:
+        line("- No dynamic adjustments", size=10)
+    line("")
+    line("Coverage Exclusions", bold=True)
+    line(f"Exclusions Version: {EXCLUSIONS_VERSION}", size=10)
+    for item in EXCLUSIONS:
+        line(f"- {item}", size=10)
+    line("")
+    line("Parametric Trigger Thresholds", bold=True)
+    line(f"- Heavy Rain: >= {TRIGGER_THRESHOLDS['HEAVY_RAIN']} mm")
+    line(f"- Extreme Heat: >= {TRIGGER_THRESHOLDS['EXTREME_HEAT']} C")
+    line(f"- Severe AQI: >= {TRIGGER_THRESHOLDS['SEVERE_AQI']}")
+    line(f"- Branch Closure: >= {TRIGGER_THRESHOLDS['BRANCH_CLOSURE']}%")
+    line(f"- Delhivery Advisory Proxy: >= {TRIGGER_THRESHOLDS['DELHIVERY_ADVISORY']}% cancellations")
+    line("")
+    line("Fixture Version: " + FIXTURE_VERSION, size=10)
+
+    pdf.save()
+    buffer.seek(0)
+    return buffer.getvalue()
 
 
 class PremiumPredictRequest(BaseModel):
@@ -351,6 +433,36 @@ def get_current_policy(rider_id: str, db: Session = Depends(get_db)):
     }
 
 
+@router.get("/policies/{rider_id}/history")
+def get_policy_history(rider_id: str, db: Session = Depends(get_db)):
+    policies = (
+        db.query(Policy)
+        .filter(Policy.rider_id == rider_id)
+        .order_by(Policy.created_at.desc())
+        .all()
+    )
+    return {
+        "rider_id": rider_id,
+        "count": len(policies),
+        "policies": [
+            {
+                "policy_id": row.id,
+                "status": row.status,
+                "week_start_date": row.week_start_date.isoformat() if row.week_start_date else None,
+                "week_end_date": row.week_end_date.isoformat() if row.week_end_date else None,
+                "base_premium": row.base_premium,
+                "final_premium": row.final_premium,
+                "coverage_cap": row.coverage_cap,
+                "exclusions_acknowledged_at": row.exclusions_acknowledged_at.isoformat()
+                if row.exclusions_acknowledged_at
+                else None,
+                "created_at": row.created_at.isoformat() if row.created_at else None,
+            }
+            for row in policies
+        ],
+    }
+
+
 @router.get("/claims/{rider_id}")
 def get_claims_for_rider(rider_id: str, db: Session = Depends(get_db)):
     rows = db.query(Claim).filter(Claim.rider_id == rider_id).order_by(Claim.created_at.desc()).all()
@@ -373,3 +485,73 @@ def get_claims_for_rider(rider_id: str, db: Session = Depends(get_db)):
             for row in rows
         ],
     }
+
+
+@router.get("/claims")
+def get_claims_admin(
+    zone: Optional[str] = Query(default=None),
+    trigger_type: Optional[str] = Query(default=None),
+    is_simulated: Optional[bool] = Query(default=None),
+    limit: int = Query(default=50, ge=1, le=500),
+    db: Session = Depends(get_db),
+):
+    query = db.query(Claim)
+    if zone:
+        query = query.filter(Claim.zone == zone)
+    if trigger_type:
+        query = query.filter(Claim.trigger_type == trigger_type.upper())
+    if is_simulated is not None:
+        query = query.filter(Claim.is_simulated == is_simulated)
+
+    rows = query.order_by(Claim.created_at.desc()).limit(limit).all()
+    return {
+        "count": len(rows),
+        "claims": [
+            {
+                "claim_id": row.id,
+                "rider_id": row.rider_id,
+                "zone": row.zone,
+                "trigger_type": row.trigger_type,
+                "payout_amount": row.payout_amount,
+                "payout_status": row.payout_status,
+                "fraud_check_passed": row.fraud_check_passed,
+                "is_simulated": row.is_simulated,
+                "created_at": row.created_at.isoformat() if row.created_at else None,
+            }
+            for row in rows
+        ],
+    }
+
+
+@router.get("/policies/{rider_id}/current/document")
+def download_current_policy_document(rider_id: str, db: Session = Depends(get_db)):
+    rider = db.query(Rider).filter(Rider.id == rider_id).first()
+    if rider is None:
+        raise HTTPException(status_code=404, detail={"error": "RIDER_NOT_FOUND", "message": "Rider not found"})
+
+    policy = (
+        db.query(Policy)
+        .filter(Policy.rider_id == rider_id, Policy.status == "active")
+        .order_by(Policy.created_at.desc())
+        .first()
+    )
+    if policy is None:
+        raise HTTPException(status_code=404, detail={"error": "POLICY_NOT_FOUND", "message": "No active policy"})
+
+    pdf_bytes = _build_policy_pdf_bytes(rider, policy)
+    filename = f"protoryde-policy-{policy.id}.pdf"
+    db.add(
+        AuditLog(
+            entity_type="Policy",
+            entity_id=policy.id,
+            action="POLICY_DOCUMENT_DOWNLOADED",
+            metadata_json={"rider_id": rider_id, "filename": filename},
+        )
+    )
+    db.commit()
+
+    return StreamingResponse(
+        BytesIO(pdf_bytes),
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
