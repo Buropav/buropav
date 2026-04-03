@@ -17,11 +17,16 @@ This repository is now the umbrella/orchestration repo for the ProtoRyde project
 - Legacy backend code is preserved in `protoryde-backend/legacy_v1`.
 
 ## Quick start
-Clone and run each repository independently from its own folder.
+Initialize submodules and run each repo independently.
+
+```bash
+git clone https://github.com/Buropav/buropav.git
+cd buropav
+git submodule update --init --recursive
+```
 
 ### Frontend
 ```bash
-git clone https://github.com/Buropav/protoryde-frontend.git
 cd protoryde-frontend
 npm install
 npm run start
@@ -29,7 +34,6 @@ npm run start
 
 ### Backend
 ```bash
-git clone https://github.com/Buropav/protoryde-backend.git
 cd protoryde-backend
 python3 -m venv venv
 source venv/bin/activate

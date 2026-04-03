@@ -1,0 +1,6 @@
+[submodule "protoryde-frontend"]
+	path = protoryde-frontend
+	url = https://github.com/Buropav/protoryde-frontend.git
+[submodule "protoryde-backend"]
+	path = protoryde-backend
+	url = https://github.com/Buropav/protoryde-backend.git
