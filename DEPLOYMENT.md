@@ -18,6 +18,11 @@ git -C protoryde-frontend pull --ff-only origin main
 
 Repository: `Buropav/protoryde-backend`
 
+First-time Render setup guide:
+- `protoryde-backend/docs/RENDER_FIRST_DEPLOY.md`
+- Local preflight script: `protoryde-backend/scripts/render_preflight.sh`
+- Live smoke script: `protoryde-backend/scripts/render_live_smoke.sh`
+
 Render settings:
 - Runtime: Python
 - Build command: `pip install -r requirements.txt`
