@@ -44,3 +44,4 @@ yarn-error.*
 docs/
 .agent
 AGENTS.md
+protoryde-backend.broken.*/
