@@ -41,6 +41,11 @@ pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
 
+## Deployment
+- End-to-end deploy checklist: `DEPLOYMENT.md`
+- Backend deployment target: Render (`protoryde-backend`)
+- Frontend deployment target: Vercel (`protoryde-frontend`)
+
 ## Branching safety
 - Do not commit frontend code in `protoryde-backend`.
 - Do not commit backend code in `protoryde-frontend`.
