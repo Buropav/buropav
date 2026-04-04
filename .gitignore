@@ -45,3 +45,6 @@ docs/
 .agent
 AGENTS.md
 protoryde-backend.broken.*/
+
+# Keep local design scratch files out of git
+NARAIN_take_waht_you_need_da/
